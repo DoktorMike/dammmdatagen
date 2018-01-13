@@ -30,7 +30,26 @@ generateCampaigns<-function(n=5, l=30, fromDate=Sys.Date()-364, toDate=Sys.Date(
 }
 
 
-# Weather
+#' Generate weather data
+#'
+#' @param fromDate the beginning of the time series
+#' @param toDate the end of the time series
+#' @param mynames the names to attach to the generated data
+#'
+#' @return a tibble with the generated data one column for each element in name
+#' @importFrom dplyr "%>%"
+#' @importFrom tidyr gather
+#' @import ggplot2
+#' @export
+#'
+#' @examples
+#' library(ggplot2)
+#' library(dplyr)
+#' library(tidyr)
+#' generateWeatherData(Sys.Date()-30, Sys.Date()) %>%
+#' gather(type, measure, -date) %>%
+#' ggplot(aes(y=measure, x=date, color=type)) +
+#' geom_line() + theme_minimal()
 generateWeatherData <- function(fromDate = Sys.Date() - 1 * 365,
                                 toDate = Sys.Date(),
                                 mynames = c('sunshine', 'precipitation', 'temperature')) {
@@ -40,9 +59,29 @@ generateWeatherData <- function(fromDate = Sys.Date() - 1 * 365,
   tmpdf
 }
 
-# Macro
-# ts.sim <- arima.sim(list(order = c(1,1,0), ar = 0.7), n = 365)
-# ts.plot(ts.sim)
+
+#' Generate macro economical data
+#'
+#' @param fromDate the beginning of the time series
+#' @param toDate the end of the time series
+#' @param mynames the names to attach to the generated data
+#'
+#' @return a tibble with the generated data one column for each element in name
+#' @importFrom dplyr "%>%"
+#' @importFrom tidyr gather
+#' @import ggplot2
+#' @export
+#'
+#' @examples
+#' library(ggplot2)
+#' library(dplyr)
+#' library(tidyr)
+#' generateMacroData(Sys.Date()-30, Sys.Date()) %>%
+#' gather(type, measure, -date) %>%
+#' ggplot(aes(y=measure, x=date, color=type)) +
+#' geom_line() + theme_minimal()
+#'
+#' ts.plot(arima.sim(list(order = c(1,1,0), ar = 0.7), n = 365))
 generateMacroData <- function(fromDate = Sys.Date() - 1 * 365,
                               toDate = Sys.Date(),
                               mynames = c('cpi', 'cci', 'gdp')) {
@@ -96,16 +135,17 @@ generateData <-
            macroNames=c('cpi', 'cci', 'gdp'),
            eventNames=c('event_a', 'event_b')) {
 
-    datedf <- tibble::tibble(date=seq(fromDate, toDate, by="1 day"))
+    mydf <- tibble::tibble(date=seq(fromDate, toDate, by="1 day"))
 
-    ondf <- generateOnlineData(fromDate, toDate, onlineInsertionNames)
-    ofdf <- generateOfflineData(fromDate, toDate, offlineInsertionNames)
-    prdf <- generatePriceData(fromDate, toDate, priceNames)
-    didf <- generateDistributionData(fromDate, toDate, distributionNames)
+    # ondf <- generateOnlineData(fromDate, toDate, onlineInsertionNames)
+    # ofdf <- generateOfflineData(fromDate, toDate, offlineInsertionNames)
+    # prdf <- generatePriceData(fromDate, toDate, priceNames)
+    # didf <- generateDistributionData(fromDate, toDate, distributionNames)
     wedf <- generateWeatherData(fromDate, toDate, weatherNames)
     codf <- generateCompetitorData(fromDate, toDate, competitorNames)
     madf <- generateMacroData(fromDate, toDate, macroNames)
-    evdf <- generateEventData(fromDate, toDate, eventNames)
+    # evdf <- generateEventData(fromDate, toDate, eventNames)
 
-
+    mydf <- Reduce(function(x, y) inner_join(x,y), list(mydf, wedf, codf, madf))
+    mydf
   }
