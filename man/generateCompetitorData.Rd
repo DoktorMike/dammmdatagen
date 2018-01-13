@@ -23,6 +23,7 @@ Generate competitor media spending as list prices data
 \examples{
 library(ggplot2)
 library(dplyr)
+library(tidyr)
 generateCompetitorData(Sys.Date()-30, Sys.Date()) \%>\%
 gather(competitor, spend, -date) \%>\%
 ggplot(aes(y=spend, x=date, fill=competitor)) +

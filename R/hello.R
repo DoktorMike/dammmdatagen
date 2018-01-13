@@ -47,7 +47,7 @@ generateMacroData <- function(fromDate = Sys.Date() - 1 * 365,
                               toDate = Sys.Date(),
                               mynames = c('cpi', 'cci', 'gdp')) {
   tmpdf <- tibble::tibble(date = seq(fromDate, toDate, by = "1 day"))
-  arf <- function(x) as.vector(arima.sim(list(order = c(1, 1, 0), ar = 0.7), n = nrow(tmpdf)-1))
+  arf <- function(x) as.vector(stats::arima.sim(list(order = c(1, 1, 0), ar = 0.7), n = nrow(tmpdf)-1))
   tmpdf <- data.frame(tmpdf, sapply(mynames, arf)) %>% tibble::as_tibble()
   tmpdf
 }
@@ -59,11 +59,15 @@ generateMacroData <- function(fromDate = Sys.Date() - 1 * 365,
 #' @param mynames the names to attach to the generated data
 #'
 #' @return a tibble with the generated data one column for each element in name
+#' @importFrom dplyr "%>%"
+#' @importFrom tidyr gather
+#' @import ggplot2
 #' @export
 #'
 #' @examples
 #' library(ggplot2)
 #' library(dplyr)
+#' library(tidyr)
 #' generateCompetitorData(Sys.Date()-30, Sys.Date()) %>%
 #' gather(competitor, spend, -date) %>%
 #' ggplot(aes(y=spend, x=date, fill=competitor)) +
