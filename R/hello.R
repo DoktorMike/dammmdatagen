@@ -29,6 +29,13 @@ generateCampaigns<-function(n=5, l=30, fromDate=Sys.Date()-364, toDate=Sys.Date(
   print(posterior)
 }
 
+generateFromFunction <- function(f, fromDate = Sys.Date() - 1 * 365,
+                                 toDate = Sys.Date(),
+                                 mynames = c('something', 'something_else')) {
+  tmpdf <- tibble::tibble(date = seq(fromDate, toDate, by = "1 day"))
+  tmpdf <- data.frame(tmpdf, sapply(mynames, f)) %>% tibble::as_tibble()
+  tmpdf
+}
 
 #' Generate weather data
 #'
@@ -53,10 +60,8 @@ generateCampaigns<-function(n=5, l=30, fromDate=Sys.Date()-364, toDate=Sys.Date(
 generateWeatherData <- function(fromDate = Sys.Date() - 1 * 365,
                                 toDate = Sys.Date(),
                                 mynames = c('sunshine', 'precipitation', 'temperature')) {
-  tmpdf <- tibble::tibble(date = seq(fromDate, toDate, by = "1 day"))
-  arf <- function(x) as.vector(stats::arima.sim(list(order = c(1, 0, 0), ar = 0.7), n = nrow(tmpdf)))
-  tmpdf <- data.frame(tmpdf, sapply(mynames, arf)) %>% tibble::as_tibble()
-  tmpdf
+  arf <- function(x) as.vector(stats::arima.sim(list(order = c(1, 0, 0), ar = 0.7), n = as.integer(toDate-fromDate)+1))
+  generateFromFunction(arf, fromDate = fromDate, toDate = toDate, mynames = mynames)
 }
 
 
@@ -85,10 +90,8 @@ generateWeatherData <- function(fromDate = Sys.Date() - 1 * 365,
 generateMacroData <- function(fromDate = Sys.Date() - 1 * 365,
                               toDate = Sys.Date(),
                               mynames = c('cpi', 'cci', 'gdp')) {
-  tmpdf <- tibble::tibble(date = seq(fromDate, toDate, by = "1 day"))
-  arf <- function(x) as.vector(stats::arima.sim(list(order = c(1, 1, 0), ar = 0.7), n = nrow(tmpdf)-1))
-  tmpdf <- data.frame(tmpdf, sapply(mynames, arf)) %>% tibble::as_tibble()
-  tmpdf
+  arf <- function(x) as.vector(stats::arima.sim(list(order = c(1, 1, 0), ar = 0.7), n = as.integer(toDate-fromDate)))
+  generateFromFunction(arf, fromDate = fromDate, toDate = toDate, mynames = mynames)
 }
 
 #' Generate competitor media spending as list prices data
@@ -114,10 +117,8 @@ generateMacroData <- function(fromDate = Sys.Date() - 1 * 365,
 generateCompetitorData <- function(fromDate = Sys.Date() - 1 * 365,
                               toDate = Sys.Date(),
                               mynames = c('competitor_a', 'competitor_b', 'competitor_c')) {
-  tmpdf <- tibble::tibble(date = seq(fromDate, toDate, by = "1 day"))
-  arf <- function(x) sample(c(0, seq(10000, 100000, 10000)), nrow(tmpdf), replace = TRUE)
-  tmpdf <- data.frame(tmpdf, sapply(mynames, arf)) %>% tibble::as_tibble()
-  tmpdf
+  arf <- function(x) sample(c(0, seq(10000, 100000, 10000)), as.integer(toDate-fromDate)+1, replace = TRUE)
+  generateFromFunction(arf, fromDate = fromDate, toDate = toDate, mynames = mynames)
 }
 
 #' Generate a marketing mix modeling data set
