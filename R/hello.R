@@ -120,7 +120,31 @@ generateCompetitorData <- function(fromDate = Sys.Date() - 1 * 365,
   tmpdf
 }
 
-# The mother fucker function
+#' Generate a marketing mix modeling data set
+#'
+#' This function generates a marketing mix modeling data set based on the
+#' parameters given. It uses many different stochastical processes to accomplish
+#' this and the dynamics behind them are not available to the user to manipulate.
+#'
+#'
+#' @param fromDate the beginning of the time series
+#' @param toDate the end of the time series
+#' @param kpi the name of the kpi (response) to simulate
+#' @param sector the name of the sector to simulate
+#' @param onlineInsertionNames the names of each online media insertion you wish to use
+#' @param offlineInsertionNames  the names of each offline media insertion you wish to use
+#' @param priceNames the names of the different product prices
+#' @param distributionNames the names of the different product distributions
+#' @param weatherNames the names of the weather data measurements to use
+#' @param competitorNames the names of each competitor considered
+#' @param macroNames the names of the macroeconomical factors to simulate
+#' @param eventNames the names of events to add
+#'
+#' @return a list of tibble containing each data mentioned
+#' @export
+#'
+#' @examples
+#' a<-1
 generateData <-
   function(fromDate=Sys.Date()-1*365,
            toDate=Sys.Date(),
@@ -146,6 +170,6 @@ generateData <-
     madf <- generateMacroData(fromDate, toDate, macroNames)
     # evdf <- generateEventData(fromDate, toDate, eventNames)
 
-    mydf <- Reduce(function(x, y) inner_join(x,y), list(mydf, wedf, codf, madf))
+    mydf <- Reduce(function(x, y) dplyr::inner_join(x,y, by = "date"), list(mydf, wedf, codf, madf))
     mydf
   }
