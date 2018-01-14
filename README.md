@@ -33,14 +33,15 @@ library(dammmdatagen)
 mydf <- generateData()
 head(mydf)
 #> # A tibble: 6 x 10
-#>   date       sunshine precip… temper… comp… comp… comp…   cpi    cci   gdp
-#>   <date>        <dbl>   <dbl>   <dbl> <dbl> <dbl> <dbl> <dbl>  <dbl> <dbl>
-#> 1 2017-01-14    1.63    0.852  0.717      0 20000 60000  0     0     0    
-#> 2 2017-01-15    1.21    1.66   0.545  30000 30000 40000  2.68 -0.798 0.147
-#> 3 2017-01-16    0.561   1.15  -0.632      0 70000 70000  4.54 -2.69  1.64 
-#> 4 2017-01-17   -1.58   -0.334  1.22   50000 70000     0  7.89 -4.51  2.36 
-#> 5 2017-01-18   -0.491   1.42  -0.0889 60000 50000     0 10.7  -5.89  2.70 
-#> 6 2017-01-19    0.933   0.565 -0.194  30000 50000 50000 12.4  -7.15  2.60
+#>   date       sunshine precipi… tempe… compet… compet… compet…   cpi    cci
+#>   <date>        <dbl>    <dbl>  <dbl>   <dbl>   <dbl>   <dbl> <dbl>  <dbl>
+#> 1 2017-01-14  -2.50     -1.10  -2.64    50000   30000  100000  0     0    
+#> 2 2017-01-15  -0.253     0.178 -2.14    10000   70000       0  1.87 -0.497
+#> 3 2017-01-16  -0.340    -0.758 -1.72    60000   90000   50000  5.51  0.184
+#> 4 2017-01-17  -0.399    -1.36  -0.746   50000  100000   50000  8.34  1.31 
+#> 5 2017-01-18   0.0712   -1.10  -0.981   40000  100000   50000  9.13  3.81 
+#> 6 2017-01-19   0.308    -1.79  -0.161  100000  100000       0 10.0   4.45 
+#> # ... with 1 more variable: gdp <dbl>
 ```
 
 We can do a lot more of course! In this small snippet we'll generate 1 month worth of competitor media spendings data and plot that out.
@@ -59,7 +60,7 @@ generateCompetitorData(fromDate = Sys.Date()-30, toDate = Sys.Date()) %>%
   theme_minimal() + scale_y_continuous(labels = dollar_format(prefix = "kr. "))
 ```
 
-![](README-competitorspendplot-1.png)
+![](figs/README-competitorspendplot-1.png)
 
 Just as we can generate competitor spending data we can also generate macroeconomical data. These types of indicators are typically slow moving over time with minor temporal differences.
 
@@ -70,4 +71,4 @@ generateMacroData(fromDate = Sys.Date()-30, toDate = Sys.Date()) %>%
   geom_line(size = 1.5) + theme_minimal()
 ```
 
-![](README-macroecondataplot-1.png)
+![](figs/README-macroecondataplot-1.png)
