@@ -5,6 +5,11 @@ dammmdatagen
 
 The goal of dammmdatagen is to make it easy for marketing mix modeling professionals to get access to realistic data sets where the ground truth is known. This fascilitates our development and provides in the end more value for all stakeholders of MMM.
 
+Build status etc
+----------------
+
+[![Travis-CI Build Status](https://travis-ci.org/DoktorMike/dammmdatagen.svg?branch=master)](https://travis-ci.org/DoktorMike/dammmdatagen)
+
 Installation
 ------------
 
@@ -28,14 +33,14 @@ library(dammmdatagen)
 mydf <- generateData()
 head(mydf)
 #> # A tibble: 6 x 10
-#>   date       sunshine precip… temp… compe… comp… compe…   cpi    cci   gdp
-#>   <date>        <dbl>   <dbl> <dbl>  <dbl> <dbl>  <dbl> <dbl>  <dbl> <dbl>
-#> 1 2017-01-14   -1.65   -0.199 0.859 100000 70000 100000  0      0     0   
-#> 2 2017-01-15   -1.98   -1.73  0.811  70000     0  20000 -1.46 - 2.45  2.71
-#> 3 2017-01-16   -2.21   -2.04  2.27   30000 20000  40000 -2.67 - 5.17  5.55
-#> 4 2017-01-17   -1.52   -1.52  1.84       0 40000  80000 -4.12 - 8.11  9.76
-#> 5 2017-01-18   -1.34   -1.63  2.21   30000     0  70000 -3.18 -11.0  14.7 
-#> 6 2017-01-19    0.263  -0.162 3.01   30000 20000  80000 -1.76 -13.9  16.8
+#>   date       sunshine precip… temper… comp… comp… comp…   cpi    cci   gdp
+#>   <date>        <dbl>   <dbl>   <dbl> <dbl> <dbl> <dbl> <dbl>  <dbl> <dbl>
+#> 1 2017-01-14    1.63    0.852  0.717      0 20000 60000  0     0     0    
+#> 2 2017-01-15    1.21    1.66   0.545  30000 30000 40000  2.68 -0.798 0.147
+#> 3 2017-01-16    0.561   1.15  -0.632      0 70000 70000  4.54 -2.69  1.64 
+#> 4 2017-01-17   -1.58   -0.334  1.22   50000 70000     0  7.89 -4.51  2.36 
+#> 5 2017-01-18   -0.491   1.42  -0.0889 60000 50000     0 10.7  -5.89  2.70 
+#> 6 2017-01-19    0.933   0.565 -0.194  30000 50000 50000 12.4  -7.15  2.60
 ```
 
 We can do a lot more of course! In this small snippet we'll generate 1 month worth of competitor media spendings data and plot that out.
@@ -56,7 +61,7 @@ generateCompetitorData(fromDate = Sys.Date()-30, toDate = Sys.Date()) %>%
 
 ![](README-competitorspendplot-1.png)
 
-Just as we can generate competitor spending data we can also generate macroeconomical data. These types of indicates are typically slow moving over time with minor temporal differences.
+Just as we can generate competitor spending data we can also generate macroeconomical data. These types of indicators are typically slow moving over time with minor temporal differences.
 
 ``` r
 generateMacroData(fromDate = Sys.Date()-30, toDate = Sys.Date()) %>% 

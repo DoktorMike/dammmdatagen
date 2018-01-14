@@ -16,6 +16,10 @@ knitr::opts_chunk$set(
 
 The goal of dammmdatagen is to make it easy for marketing mix modeling professionals to get access to realistic data sets where the ground truth is known. This fascilitates our development and provides in the end more value for all stakeholders of MMM.
 
+## Build status etc
+
+[![Travis-CI Build Status](https://travis-ci.org/DoktorMike/dammmdatagen.svg?branch=master)](https://travis-ci.org/DoktorMike/dammmdatagen)
+
 ## Installation
 
 You can install dammmdatagen from github with:
@@ -29,7 +33,7 @@ devtools::install_github("DoktorMike/dammmdatagen")
 
 This is a basic example which shows you how to generate a small 1 year data set.
 
-```{r example}
+```{r example, cache=TRUE}
 # load useful libraries
 library(dammmdatagen)
 
@@ -40,7 +44,7 @@ head(mydf)
 
 We can do a lot more of course! In this small snippet we'll generate 1 month worth of competitor media spendings data and plot that out.
 
-```{r competitorspendplot, fig.width=10, message=FALSE, warning=FALSE, paged.print=FALSE}
+```{r competitorspendplot, fig.width=10, message=FALSE, warning=FALSE, paged.print=FALSE, cache=TRUE}
 library(dammmdatagen)
 library(ggplot2)
 library(dplyr)
@@ -56,7 +60,7 @@ generateCompetitorData(fromDate = Sys.Date()-30, toDate = Sys.Date()) %>%
 
 Just as we can generate competitor spending data we can also generate macroeconomical data. These types of indicators are typically slow moving over time with minor temporal differences.
 
-```{r macroecondataplot, fig.width=10, message=FALSE, warning=FALSE, paged.print=FALSE}
+```{r macroecondataplot, fig.width=10, message=FALSE, warning=FALSE, paged.print=FALSE, cache=TRUE}
 generateMacroData(fromDate = Sys.Date()-30, toDate = Sys.Date()) %>% 
   gather("indicator", "value", -"date") %>% 
   ggplot(aes(y=value, x=date, color=indicator)) + 
