@@ -5,28 +5,28 @@ generateCampaigns<-function(n=5, l=30, fromDate=Sys.Date()-364, toDate=Sys.Date(
   numPossibleCampaigns<-as.integer(length(dateseq)/l)
   numPossibleCampaigns
 
-  library(HMM)
+  # library(HMM)
   # Initialise HMM
-  hmm = initHMM(c("Promotion", "Awareness", "NA"),
-                c("Offline", "Online", "Combined", "NA"),
-                transProbs=matrix(c(.8,.1,.1,
-                                    .1,.8,.1,
-                                    .1,.1,.8), 3),
-                emissionProbs=matrix(c(.1,.6,.0,
-                                       .2,.2,.0,
-                                       .7,.2,.0,
-                                       .0,.0,1.), 4))
-  print(hmm)
-
-  # Simulate
-  simHMM(hmm, 30)
-
-
-  # Sequence of observations
-  observations = c("L","L","R","R")
-  # Calculate posterior probablities of the states
-  posterior = posterior(hmm,observations)
-  print(posterior)
+  # hmm = initHMM(c("Promotion", "Awareness", "NA"),
+  #               c("Offline", "Online", "Combined", "NA"),
+  #               transProbs=matrix(c(.8,.1,.1,
+  #                                   .1,.8,.1,
+  #                                   .1,.1,.8), 3),
+  #               emissionProbs=matrix(c(.1,.6,.0,
+  #                                      .2,.2,.0,
+  #                                      .7,.2,.0,
+  #                                      .0,.0,1.), 4))
+  # print(hmm)
+  #
+  # # Simulate
+  # simHMM(hmm, 30)
+  #
+  #
+  # # Sequence of observations
+  # observations = c("L","L","R","R")
+  # # Calculate posterior probablities of the states
+  # posterior = posterior(hmm,observations)
+  # print(posterior)
 }
 
 generateFromFunction <- function(f, fromDate = Sys.Date() - 1 * 365,
