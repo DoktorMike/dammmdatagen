@@ -8,3 +8,5 @@ addons:
     packages:
       - libxml2-dev
       - r-cran-stringi
+      - r-cran-dplyr
+      - r-cran-ggplot2
