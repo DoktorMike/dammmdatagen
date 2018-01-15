@@ -87,32 +87,33 @@ generateWeatherData <- function(fromDate = Sys.Date() - 1 * 365,
 generatePriceData <- function(fromDate = Sys.Date() - 1 * 365,
                               toDate = Sys.Date(),
                               mynames = c('product_a', 'product_b', 'product_c')) {
-  arf <- function(x){
+  arf <- function(x) {
     # Initialise HMM
-    hmm = HMM::initHMM(c("PriceWar", "Normal"),
-                  c("PriceA", "PriceB", "PriceC", "PriceD"),
-                  transProbs=matrix(c(.8,.2,
-                                      .2,.8), 2),
-                  emissionProbs=matrix(c(.3,.6,
-                                         .2,.2,
-                                         .3,.1,
-                                         .2,.1), 4))
-    # print(hmm)
-
-    # Simulate
-    # simHMM(hmm, 30)
-
-    # # Sequence of observations
-    # observations = c("L","L","R","R")
-    # # Calculate posterior probablities of the states
-    # posterior = posterior(hmm,observations)
-    # print(posterior)
-    tmptypedf <- tibble::tibble(type=HMM::simHMM(hmm, as.integer(toDate-fromDate)+1)$observation)
-    tmppricedf <- tibble::tibble(type=c("PriceA", "PriceB", "PriceC", "PriceD"), price=c(199, 149, 129, 99))
-    tmpdf <- dplyr::left_join(tmptypedf, tmppricedf, by="type")
+    hmm = HMM::initHMM(
+      c("PriceWar", "Normal"),
+      c("PriceA", "PriceB", "PriceC", "PriceD"),
+      transProbs = matrix(c(.8, .2,
+                            .2, .8), 2),
+      emissionProbs = matrix(c(.3, .6,
+                               .2, .2,
+                               .3, .1,
+                               .2, .1), 4)
+    )
+    tmptypedf <-
+      tibble::tibble(type = HMM::simHMM(hmm, as.integer(toDate - fromDate) +
+                                          1)$observation)
+    tmppricedf <-
+      tibble::tibble(
+        type = c("PriceA", "PriceB", "PriceC", "PriceD"),
+        price = c(199, 149, 129, 99)
+      )
+    tmpdf <- dplyr::left_join(tmptypedf, tmppricedf, by = "type")
     as.vector(tmpdf$price)
   }
-  generateFromFunction(arf, fromDate = fromDate, toDate = toDate, mynames = mynames)
+  generateFromFunction(arf,
+                       fromDate = fromDate,
+                       toDate = toDate,
+                       mynames = mynames)
 }
 
 
