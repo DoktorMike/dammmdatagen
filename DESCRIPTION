@@ -13,4 +13,5 @@ Imports: stats,
     dplyr,
     tibble,
     ggplot2,
-    tidyr
+    tidyr,
+    HMM

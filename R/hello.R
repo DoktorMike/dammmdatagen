@@ -64,6 +64,57 @@ generateWeatherData <- function(fromDate = Sys.Date() - 1 * 365,
   generateFromFunction(arf, fromDate = fromDate, toDate = toDate, mynames = mynames)
 }
 
+#' Generate price data
+#'
+#' @param fromDate the beginning of the time series
+#' @param toDate the end of the time series
+#' @param mynames the names to attach to the generated data
+#'
+#' @return a tibble with the generated data one column for each element in name
+#' @importFrom dplyr "%>%"
+#' @importFrom tidyr gather
+#' @import ggplot2
+#' @export
+#'
+#' @examples
+#' library(ggplot2)
+#' library(dplyr)
+#' library(tidyr)
+#' generatePriceData(Sys.Date()-30, Sys.Date()) %>%
+#' gather(type, price, -date) %>%
+#' ggplot(aes(y=price, x=date, color=type)) +
+#' geom_line() + theme_minimal()
+generatePriceData <- function(fromDate = Sys.Date() - 1 * 365,
+                              toDate = Sys.Date(),
+                              mynames = c('product_a', 'product_b', 'product_c')) {
+  arf <- function(x){
+    # Initialise HMM
+    hmm = HMM::initHMM(c("PriceWar", "Normal"),
+                  c("PriceA", "PriceB", "PriceC", "PriceD"),
+                  transProbs=matrix(c(.8,.2,
+                                      .2,.8), 2),
+                  emissionProbs=matrix(c(.3,.6,
+                                         .2,.2,
+                                         .3,.1,
+                                         .2,.1), 4))
+    # print(hmm)
+
+    # Simulate
+    # simHMM(hmm, 30)
+
+    # # Sequence of observations
+    # observations = c("L","L","R","R")
+    # # Calculate posterior probablities of the states
+    # posterior = posterior(hmm,observations)
+    # print(posterior)
+    tmptypedf <- tibble::tibble(type=HMM::simHMM(hmm, as.integer(toDate-fromDate)+1)$observation)
+    tmppricedf <- tibble::tibble(type=c("PriceA", "PriceB", "PriceC", "PriceD"), price=c(199, 149, 129, 99))
+    tmpdf <- dplyr::left_join(tmptypedf, tmppricedf, by="type")
+    as.vector(tmpdf$price)
+  }
+  generateFromFunction(arf, fromDate = fromDate, toDate = toDate, mynames = mynames)
+}
+
 
 #' Generate macro economical data
 #'
