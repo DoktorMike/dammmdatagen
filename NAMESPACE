@@ -2,6 +2,7 @@
 
 export(generateCompetitorData)
 export(generateData)
+export(generateDistributionData)
 export(generateMacroData)
 export(generatePriceData)
 export(generateWeatherData)

@@ -116,6 +116,36 @@ generatePriceData <- function(fromDate = Sys.Date() - 1 * 365,
                        mynames = mynames)
 }
 
+#' Generate distribution data
+#'
+#' @param fromDate the beginning of the time series
+#' @param toDate the end of the time series
+#' @param mynames the names to attach to the generated data
+#'
+#' @return a tibble with the generated data one column for each element in name
+#' @importFrom dplyr "%>%"
+#' @importFrom tidyr gather
+#' @import ggplot2
+#' @export
+#'
+#' @examples
+#' library(ggplot2)
+#' library(dplyr)
+#' library(tidyr)
+#' generateDistributionData(Sys.Date()-30, Sys.Date()) %>%
+#' gather(type, distribution, -date) %>%
+#' ggplot(aes(y=distribution, x=date, color=type)) +
+#' geom_line() + theme_minimal()
+generateDistributionData <- function(fromDate = Sys.Date() - 1 * 365,
+                              toDate = Sys.Date(),
+                              mynames = c('product_a', 'product_b', 'product_c')) {
+  arf <- function(x)  (rpois(as.integer(toDate-fromDate)+1, 2)/10+1)/2
+  # dautility::qplotez((rpois(10, 2)/10+1)/2)
+  generateFromFunction(arf,
+                       fromDate = fromDate,
+                       toDate = toDate,
+                       mynames = mynames)
+}
 
 #' Generate macro economical data
 #'
