@@ -5,7 +5,8 @@
 \title{Generate price data}
 \usage{
 generateOnlineData(fromDate = Sys.Date() - 1 * 365, toDate = Sys.Date(),
-  mynames = c("display", "facebook", "search_branded"))
+  mynames = c("display", "facebook", "search_branded"), avgcpm = 0.5,
+  avgnet = 10000)
 }
 \arguments{
 \item{fromDate}{the beginning of the time series}
@@ -13,6 +14,10 @@ generateOnlineData(fromDate = Sys.Date() - 1 * 365, toDate = Sys.Date(),
 \item{toDate}{the end of the time series}
 
 \item{mynames}{the names to attach to the generated data}
+
+\item{avgcpm}{the average Cost Per 1000 Impressions}
+
+\item{avgnet}{the average net investment per insertion and day}
 }
 \value{
 a tibble with the generated data one column for each element in name
@@ -24,7 +29,8 @@ Generate price data
 library(ggplot2)
 library(dplyr)
 library(tidyr)
-generateOnlineData(Sys.Date()-30, Sys.Date()) \%>\%
+mydflist <- generateOnlineData(Sys.Date()-30, Sys.Date())
+mydflist[["impression"]] \%>\%
 gather(type, impression, -date) \%>\%
 ggplot(aes(y=impression, x=date, color=type)) +
 geom_line() + theme_minimal()
