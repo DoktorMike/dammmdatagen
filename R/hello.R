@@ -203,6 +203,59 @@ generateCompetitorData <- function(fromDate = Sys.Date() - 1 * 365,
   generateFromFunction(arf, fromDate = fromDate, toDate = toDate, mynames = mynames)
 }
 
+#' Generate price data
+#'
+#' @param fromDate the beginning of the time series
+#' @param toDate the end of the time series
+#' @param mynames the names to attach to the generated data
+#'
+#' @return a tibble with the generated data one column for each element in name
+#' @importFrom dplyr "%>%"
+#' @importFrom tidyr gather
+#' @import ggplot2
+#' @export
+#'
+#' @examples
+#' library(ggplot2)
+#' library(dplyr)
+#' library(tidyr)
+#' generateOnlineData(Sys.Date()-30, Sys.Date()) %>%
+#' gather(type, impression, -date) %>%
+#' ggplot(aes(y=impression, x=date, color=type)) +
+#' geom_line() + theme_minimal()
+generateOnlineData <- function(fromDate = Sys.Date() - 1 * 365,
+                               toDate = Sys.Date(),
+                               mynames = c('display', 'facebook', 'search_branded')) {
+  arf <- function(x) {
+    # Initialise HMM
+    hmm = HMM::initHMM(
+      c("PriceWar", "Normal"),
+      c("PriceA", "PriceB", "PriceC", "PriceD"),
+      transProbs = matrix(c(.8, .2,
+                            .2, .8), 2),
+      emissionProbs = matrix(c(.3, .6,
+                               .2, .2,
+                               .3, .1,
+                               .2, .1), 4)
+    )
+    tmptypedf <-
+      tibble::tibble(type = HMM::simHMM(hmm, as.integer(toDate - fromDate) +
+                                          1)$observation)
+    tmppricedf <-
+      tibble::tibble(
+        type = c("PriceA", "PriceB", "PriceC", "PriceD"),
+        price = c(199, 149, 129, 99)
+      )
+    tmpdf <- dplyr::left_join(tmptypedf, tmppricedf, by = "type")
+    as.vector(tmpdf$price)
+  }
+  generateFromFunction(arf,
+                       fromDate = fromDate,
+                       toDate = toDate,
+                       mynames = mynames)
+}
+
+
 #' Generate a marketing mix modeling data set
 #'
 #' This function generates a marketing mix modeling data set based on the
@@ -246,13 +299,13 @@ generateData <-
 
     # ondf <- generateOnlineData(fromDate, toDate, onlineInsertionNames)
     # ofdf <- generateOfflineData(fromDate, toDate, offlineInsertionNames)
-    # prdf <- generatePriceData(fromDate, toDate, priceNames)
-    # didf <- generateDistributionData(fromDate, toDate, distributionNames)
+    prdf <- generatePriceData(fromDate, toDate, priceNames)
+    didf <- generateDistributionData(fromDate, toDate, distributionNames)
     wedf <- generateWeatherData(fromDate, toDate, weatherNames)
     codf <- generateCompetitorData(fromDate, toDate, competitorNames)
     madf <- generateMacroData(fromDate, toDate, macroNames)
     # evdf <- generateEventData(fromDate, toDate, eventNames)
 
-    mydf <- Reduce(function(x, y) dplyr::inner_join(x,y, by = "date"), list(mydf, wedf, codf, madf))
+    mydf <- Reduce(function(x, y) dplyr::inner_join(x,y, by = "date"), list(mydf, wedf, codf, madf, didf, prdf))
     mydf
   }
