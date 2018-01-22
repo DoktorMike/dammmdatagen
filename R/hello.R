@@ -230,7 +230,7 @@ generateCompetitorData <- function(fromDate = Sys.Date() - 1 * 365,
   generateFromFunction(arf, fromDate = fromDate, toDate = toDate, mynames = mynames)
 }
 
-#' Generate price data
+#' Generate online media data
 #'
 #' @param fromDate the beginning of the time series
 #' @param toDate the end of the time series
@@ -309,6 +309,84 @@ generateOnlineData <- function(fromDate = Sys.Date() - 1 * 365,
   list(net=netdf, impression=impdf, cpm=cpmdf)
 }
 
+#' Generate offline media data
+#'
+#' @param fromDate the beginning of the time series
+#' @param toDate the end of the time series
+#' @param mynames the names to attach to the generated data
+#' @param avgcpm the average Cost Per 1000 Impressions
+#' @param avgnet the average net investment per insertion and day
+#'
+#' @return a tibble with the generated data one column for each element in name
+#' @importFrom dplyr "%>%"
+#' @importFrom tidyr gather
+#' @import ggplot2
+#' @export
+#'
+#' @examples
+#' library(ggplot2)
+#' library(dplyr)
+#' library(tidyr)
+#' mydflist <- generateOfflineData(Sys.Date()-30, Sys.Date())
+#' mydflist[["impression"]] %>%
+#' gather(type, impression, -date) %>%
+#' ggplot(aes(y=impression, x=date, color=type)) +
+#' geom_line() + theme_minimal()
+generateOfflineData <- function(fromDate = Sys.Date() - 1 * 365,
+                                toDate = Sys.Date(),
+                                mynames = c('tv', 'radio', 'facebook'),
+                                avgcpm = 0.5, avgnet = 10000) {
+  genCampaignStructure <- function(n){
+    hmm = HMM::initHMM(
+      c("Burst", "Normal", "Off"),
+      c("PriceA", "PriceB"),
+      transProbs = matrix(c(.7, .05, .1,
+                            .1, .9, .1,
+                            .2, .05, .8), 3),
+      emissionProbs = matrix(c(.3, .7, .5,
+                               .7, .3, .5), 2)
+    )
+    HMM::simHMM(hmm, n)$states
+  }
+
+  arf <- function(x) {
+    cpms <- c(seq(0.1*avgcpm, 2.5*avgcpm, length.out = 11))
+    pricenames <- paste0("Price", LETTERS[1:length(cpms)])
+    tmppricedf <- tibble::tibble(cpm = cpms, type = pricenames)
+    # Initialise HMM
+    hmm = HMM::initHMM(
+      c("High", "Low"),
+      pricenames,
+      transProbs = matrix(c(.7, .3,
+                            .3, .7), 2),
+      emissionProbs = matrix(c(.0, .3,
+                               .0, .1,
+                               .0, .2,
+                               .2, .2,
+                               .2, .2,
+                               .2, .0,
+                               .1, .0,
+                               .1, .0,
+                               .1, .0,
+                               .05, .0,
+                               .05, 0), 11)
+    )
+    tmptypedf <-
+      tibble::tibble(type = HMM::simHMM(hmm, as.integer(toDate - fromDate) +
+                                          1)$observation)
+    tmpdf <- dplyr::left_join(tmptypedf, tmppricedf, by = "type")
+    as.vector(tmpdf$cpm)
+  }
+  cpmdf <- generateFromFunction(arf, fromDate = fromDate, toDate = toDate, mynames = mynames)
+  campdf <- dplyr::left_join(tibble::tibble(strategy=genCampaignStructure(as.integer(toDate - fromDate) + 1)),
+                             tibble::tibble(strategy=c("Burst", "Normal", "Off"), net=c(2.5*avgnet, avgnet, 0)), by="strategy")
+  stopifnot(nrow(cpmdf)==nrow(campdf))
+  # genspend <- function(x) rnorm(length(x), 1, 1/5)*x
+  genimp <- function(x) rnorm(length(x), 1, 1/5)*campdf$net/x*1000
+  impdf <- tibble::as_tibble(data.frame(date=cpmdf$date, sapply(dplyr::select(cpmdf, -date), genimp)))
+  netdf <- tibble::as_tibble(data.frame(date=impdf$date, dplyr::select(impdf, -date)/1000 * dplyr::select(cpmdf, -date)))
+  list(net=netdf, impression=impdf, cpm=cpmdf)
+}
 
 #' Generate a marketing mix modeling data set
 #'
@@ -351,7 +429,7 @@ generateData <-
 
     mydf <- tibble::tibble(date=seq(fromDate, toDate, by="1 day"))
 
-    # ondf <- generateOnlineData(fromDate, toDate, onlineInsertionNames)
+    ondf <- generateOnlineData(fromDate, toDate, onlineInsertionNames)
     # ofdf <- generateOfflineData(fromDate, toDate, offlineInsertionNames)
     prdf <- generatePriceData(fromDate, toDate, priceNames)
     didf <- generateDistributionData(fromDate, toDate, distributionNames)
