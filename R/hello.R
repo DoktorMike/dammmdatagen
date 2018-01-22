@@ -334,7 +334,7 @@ generateOnlineData <- function(fromDate = Sys.Date() - 1 * 365,
 #' geom_line() + theme_minimal()
 generateOfflineData <- function(fromDate = Sys.Date() - 1 * 365,
                                 toDate = Sys.Date(),
-                                mynames = c('tv', 'radio', 'facebook'),
+                                mynames = c('tv', 'radio', 'ooh'),
                                 avgcpm = 0.5, avgnet = 10000) {
   genCampaignStructure <- function(n){
     hmm = HMM::initHMM(
