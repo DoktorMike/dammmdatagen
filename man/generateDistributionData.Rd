@@ -2,10 +2,11 @@
 % Please edit documentation in R/hello.R
 \name{generateDistributionData}
 \alias{generateDistributionData}
-\title{Generate distribution data}
+\title{Generate distribution data as absolute levels}
 \usage{
 generateDistributionData(fromDate = Sys.Date() - 1 * 365,
-  toDate = Sys.Date(), mynames = c("product_a", "product_b", "product_c"))
+  toDate = Sys.Date(), mynames = c("product_a", "product_b", "product_c"),
+  initDist = c(1000, 500, 800))
 }
 \arguments{
 \item{fromDate}{the beginning of the time series}
@@ -13,18 +14,21 @@ generateDistributionData(fromDate = Sys.Date() - 1 * 365,
 \item{toDate}{the end of the time series}
 
 \item{mynames}{the names to attach to the generated data}
+
+\item{initDist}{the vector of initial distributions in total numbers}
 }
 \value{
 a tibble with the generated data one column for each element in name
 }
 \description{
-Generate distribution data
+Generate distribution data as absolute levels
 }
 \examples{
 library(ggplot2)
 library(dplyr)
 library(tidyr)
-generateDistributionData(Sys.Date()-30, Sys.Date()) \%>\%
+generateDistributionData(Sys.Date()-30, Sys.Date(),
+c('product_a', 'product_b', 'product_c'), c(20, 50, 10) ) \%>\%
 gather(type, distribution, -date) \%>\%
 ggplot(aes(y=distribution, x=date, color=type)) +
 geom_line() + theme_minimal()

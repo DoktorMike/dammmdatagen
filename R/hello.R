@@ -116,11 +116,12 @@ generatePriceData <- function(fromDate = Sys.Date() - 1 * 365,
                        mynames = mynames)
 }
 
-#' Generate distribution data
+#' Generate distribution data as absolute levels
 #'
 #' @param fromDate the beginning of the time series
 #' @param toDate the end of the time series
 #' @param mynames the names to attach to the generated data
+#' @param initDist the vector of initial distributions in total numbers
 #'
 #' @return a tibble with the generated data one column for each element in name
 #' @importFrom dplyr "%>%"
@@ -132,19 +133,45 @@ generatePriceData <- function(fromDate = Sys.Date() - 1 * 365,
 #' library(ggplot2)
 #' library(dplyr)
 #' library(tidyr)
-#' generateDistributionData(Sys.Date()-30, Sys.Date()) %>%
+#' generateDistributionData(Sys.Date()-30, Sys.Date(),
+#' c('product_a', 'product_b', 'product_c'), c(20, 50, 10) ) %>%
 #' gather(type, distribution, -date) %>%
 #' ggplot(aes(y=distribution, x=date, color=type)) +
 #' geom_line() + theme_minimal()
 generateDistributionData <- function(fromDate = Sys.Date() - 1 * 365,
                               toDate = Sys.Date(),
-                              mynames = c('product_a', 'product_b', 'product_c')) {
+                              mynames = c('product_a', 'product_b', 'product_c'),
+                              initDist = c(1000, 500, 800)) {
   arf <- function(x)  (rpois(as.integer(toDate-fromDate)+1, 2)/10+1)/2
+  arf <- function(x) {
+    # Initialise HMM
+    hmm = HMM::initHMM(
+      c("Normal", "Turbulent"),
+      c("Increase", "Decrease", "Stay"),
+      transProbs = matrix(c(.95, .95,
+                            .05, .05), 2),
+      emissionProbs = matrix(c(.05, .4,
+                               .05, .2,
+                               .90, .4), 3)
+    )
+    tmptypedf <-
+      tibble::tibble(type = HMM::simHMM(hmm, as.integer(toDate - fromDate) +
+                                          1)$observation)
+    tmppricedf <-
+      tibble::tibble(
+        type = c("Increase", "Decrease", "Stay"),
+        price = c(1, -1, 0)
+      )
+    tmpdf <- dplyr::left_join(tmptypedf, tmppricedf, by = "type")
+    cumsum(as.vector(tmpdf$price))
+  }
   # dautility::qplotez((rpois(10, 2)/10+1)/2)
-  generateFromFunction(arf,
-                       fromDate = fromDate,
-                       toDate = toDate,
-                       mynames = mynames)
+  a<-generateFromFunction(arf,
+                          fromDate = fromDate,
+                          toDate = toDate,
+                          mynames = mynames)
+  a[,-1] <- t(t(a[,-1])+initDist)
+  a
 }
 
 #' Generate macro economical data
