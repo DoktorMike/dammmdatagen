@@ -15,3 +15,4 @@ Imports: stats,
     ggplot2,
     tidyr,
     HMM
+Suggests: testthat
