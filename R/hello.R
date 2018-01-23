@@ -429,8 +429,10 @@ generateData <-
 
     mydf <- tibble::tibble(date=seq(fromDate, toDate, by="1 day"))
 
+    # These come as list of three tibbles.
     ondf <- generateOnlineData(fromDate, toDate, onlineInsertionNames)
-    # ofdf <- generateOfflineData(fromDate, toDate, offlineInsertionNames)
+    ofdf <- generateOfflineData(fromDate, toDate, offlineInsertionNames)
+    # These come as pure tibbles
     prdf <- generatePriceData(fromDate, toDate, priceNames)
     didf <- generateDistributionData(fromDate, toDate, distributionNames)
     wedf <- generateWeatherData(fromDate, toDate, weatherNames)
