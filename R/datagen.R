@@ -388,6 +388,35 @@ generateOfflineData <- function(fromDate = Sys.Date() - 1 * 365,
   list(net=netdf, impression=impdf, cpm=cpmdf)
 }
 
+#' Generate offline media data
+#'
+#' @param fromDate the beginning of the time series
+#' @param toDate the end of the time series
+#' @param mynames the names to attach to the generated data
+#' @param freq the rate of incidence of events
+#'
+#' @return a tibble with the generated data one column for each element in name
+#' @importFrom dplyr "%>%"
+#' @importFrom tidyr gather
+#' @import ggplot2
+#' @export
+#'
+#' @examples
+#' library(ggplot2)
+#' library(dplyr)
+#' library(tidyr)
+#' generateEventData(Sys.Date()-30, Sys.Date()) %>%
+#' gather(type, value, -date) %>%
+#' ggplot(aes(y=value, x=date, color=type)) +
+#' geom_line() + theme_minimal()
+generateEventData <- function(fromDate = Sys.Date() - 1 * 365,
+                                toDate = Sys.Date(),
+                                mynames = c('event_a', 'event_b'),
+                                freq = 0.01) {
+  arf <- function(x) rpois(as.integer(toDate-fromDate)+1, freq)
+  generateFromFunction(arf, fromDate = fromDate, toDate = toDate, mynames = mynames)
+}
+
 #' Generate a marketing mix modeling data set
 #'
 #' This function generates a marketing mix modeling data set based on the

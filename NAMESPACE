@@ -3,6 +3,7 @@
 export(generateCompetitorData)
 export(generateData)
 export(generateDistributionData)
+export(generateEventData)
 export(generateMacroData)
 export(generateOfflineData)
 export(generateOnlineData)
