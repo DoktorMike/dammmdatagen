@@ -51,7 +51,7 @@ library(dammmdatagen)
 library(ggplot2)
 library(dplyr)
 library(tidyr)
-library(scales)
+library(scales) 
 
 generateCompetitorData(fromDate = Sys.Date()-30, toDate = Sys.Date()) %>% 
   gather("competitor", "spend", -"date") %>% 
@@ -72,3 +72,18 @@ generateMacroData(fromDate = Sys.Date()-30, toDate = Sys.Date()) %>%
 ```
 
 ![](figs/README-macroecondataplot-1.png)
+
+Media generation
+----------------
+
+Generating media is in general a bit more complicated as we need more information since in MMM models that's what we primarily care about. So we need three data.frames; the net, the impressions and the cpms. We also differentiate between offline and online media. This difference is rather artificial right now but it's to futureproof the package.
+
+``` r
+mydflist <- generateOnlineData(Sys.Date()-30, Sys.Date())
+mydflist[["impression"]] %>%
+  gather(type, impression, -date) %>%
+  ggplot(aes(y=impression, x=date, fill=type)) +
+  geom_bar(stat="identity") + theme_minimal()
+```
+
+![](figs/README-onlineimpdata-1.png)
