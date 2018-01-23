@@ -67,6 +67,26 @@ generateMacroData(fromDate = Sys.Date()-30, toDate = Sys.Date()) %>%
   geom_line(size = 1.5) + theme_minimal()
 ```
 
+## Event type data
+
+Event data are modeled as a poisson distribution with a low incidence.
+
+```{r eventdata1, fig.width=10, message=FALSE, warning=FALSE, paged.print=FALSE, cache=TRUE}
+generateEventData(Sys.Date()-265, Sys.Date()) %>%
+  gather(type, value, -date) %>%
+  ggplot(aes(y=value, x=date, fill=type)) +
+  geom_bar(stat="identity") + theme_minimal()
+```
+
+The incidence can of course be controlled. This is done via the freq parameter.
+
+```{r eventdata2, fig.width=10, message=FALSE, warning=FALSE, paged.print=FALSE, cache=TRUE}
+generateEventData(Sys.Date()-265, Sys.Date(), freq = 0.1) %>%
+  gather(type, value, -date) %>%
+  ggplot(aes(y=value, x=date, fill=type)) +
+  geom_bar(stat="identity") + theme_minimal()
+```
+
 ## Media generation
 
 Generating media is in general a bit more complicated as we need more information since in MMM models that's what we primarily care about. So we need three data.frames; the net, the impressions and the cpms. We also differentiate between offline and online media. This difference is rather artificial right now but it's to futureproof the package.

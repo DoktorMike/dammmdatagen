@@ -73,6 +73,31 @@ generateMacroData(fromDate = Sys.Date()-30, toDate = Sys.Date()) %>%
 
 ![](figs/README-macroecondataplot-1.png)
 
+Event type data
+---------------
+
+Event data are modeled as a poisson distribution with a low incidence.
+
+``` r
+generateEventData(Sys.Date()-265, Sys.Date()) %>%
+  gather(type, value, -date) %>%
+  ggplot(aes(y=value, x=date, fill=type)) +
+  geom_bar(stat="identity") + theme_minimal()
+```
+
+![](figs/README-eventdata1-1.png)
+
+The incidence can of course be controlled. This is done via the freq parameter.
+
+``` r
+generateEventData(Sys.Date()-265, Sys.Date(), freq = 0.1) %>%
+  gather(type, value, -date) %>%
+  ggplot(aes(y=value, x=date, fill=type)) +
+  geom_bar(stat="identity") + theme_minimal()
+```
+
+![](figs/README-eventdata2-1.png)
+
 Media generation
 ----------------
 
