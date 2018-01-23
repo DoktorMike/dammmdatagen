@@ -15,4 +15,5 @@ Imports: stats,
     ggplot2,
     tidyr,
     HMM
-Suggests: testthat
+Suggests: testthat,
+    covr
