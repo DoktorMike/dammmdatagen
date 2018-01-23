@@ -8,7 +8,7 @@ The goal of dammmdatagen is to make it easy for marketing mix modeling professio
 Build status etc
 ----------------
 
-[![Travis-CI Build Status](https://travis-ci.org/DoktorMike/dammmdatagen.svg?branch=master)](https://travis-ci.org/DoktorMike/dammmdatagen)
+[![Travis-CI Build Status](https://travis-ci.org/DoktorMike/dammmdatagen.svg?branch=master)](https://travis-ci.org/DoktorMike/dammmdatagen) [![Coverage Status](https://img.shields.io/codecov/c/github/DoktorMike/dammmdatagen/master.svg)](https://codecov.io/github/DoktorMike/dammmdatagen?branch=master)
 
 Installation
 ------------
