@@ -4,9 +4,9 @@
 \alias{generateOnlineData}
 \title{Generate online media data}
 \usage{
-generateOnlineData(fromDate = Sys.Date() - 1 * 365, toDate = Sys.Date(),
-  mynames = c("display", "facebook", "search_branded"), avgcpm = 0.5,
-  avgnet = 10000)
+generateOnlineData(fromDate = Sys.Date() - 1 * 365,
+  toDate = Sys.Date(), mynames = c("display", "facebook",
+  "search_branded"), avgcpm = 0.5, avgnet = 10000)
 }
 \arguments{
 \item{fromDate}{the beginning of the time series}

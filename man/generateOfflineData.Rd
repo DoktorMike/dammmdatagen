@@ -4,8 +4,9 @@
 \alias{generateOfflineData}
 \title{Generate offline media data}
 \usage{
-generateOfflineData(fromDate = Sys.Date() - 1 * 365, toDate = Sys.Date(),
-  mynames = c("tv", "radio", "ooh"), avgcpm = 0.5, avgnet = 10000)
+generateOfflineData(fromDate = Sys.Date() - 1 * 365,
+  toDate = Sys.Date(), mynames = c("tv", "radio", "ooh"),
+  avgcpm = 0.5, avgnet = 10000)
 }
 \arguments{
 \item{fromDate}{the beginning of the time series}

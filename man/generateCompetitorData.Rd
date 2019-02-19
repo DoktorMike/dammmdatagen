@@ -4,8 +4,9 @@
 \alias{generateCompetitorData}
 \title{Generate competitor media spending as list prices data}
 \usage{
-generateCompetitorData(fromDate = Sys.Date() - 1 * 365, toDate = Sys.Date(),
-  mynames = c("competitor_a", "competitor_b", "competitor_c"))
+generateCompetitorData(fromDate = Sys.Date() - 1 * 365,
+  toDate = Sys.Date(), mynames = c("competitor_a", "competitor_b",
+  "competitor_c"))
 }
 \arguments{
 \item{fromDate}{the beginning of the time series}

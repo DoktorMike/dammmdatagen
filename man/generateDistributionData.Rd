@@ -5,8 +5,8 @@
 \title{Generate distribution data as absolute levels}
 \usage{
 generateDistributionData(fromDate = Sys.Date() - 1 * 365,
-  toDate = Sys.Date(), mynames = c("product_a", "product_b", "product_c"),
-  initDist = c(1000, 500, 800))
+  toDate = Sys.Date(), mynames = c("product_a", "product_b",
+  "product_c"), initDist = c(1000, 500, 800))
 }
 \arguments{
 \item{fromDate}{the beginning of the time series}

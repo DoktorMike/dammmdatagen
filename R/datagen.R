@@ -417,17 +417,19 @@ generateEventData <- function(fromDate = Sys.Date() - 1 * 365,
   generateFromFunction(arf, fromDate = fromDate, toDate = toDate, mynames = mynames)
 }
 
-#' Generate a marketing mix modeling data set
+#' Generate a marketing mix modeling covariates data set
 #'
-#' This function generates a marketing mix modeling data set based on the
-#' parameters given. It uses many different stochastical processes to accomplish
-#' this and the dynamics behind them are not available to the user to manipulate.
+#' This function generates a marketing mix modeling covariates data set based on
+#' the parameters given. It uses many different stochastical processes to
+#' accomplish this and the dynamics behind them are not available to the user to
+#' manipulate. This is supposed to generate all tha variables you use in a
+#' marketing mix model except for the response variable i.e. the dependent
+#' variable.
 #'
 #'
 #' @param fromDate the beginning of the time series
 #' @param toDate the end of the time series
-#' @param kpi the name of the kpi (response) to simulate
-#' @param sector the name of the sector to simulate
+#' @param sector the name of the sector to simulate (currently not used)
 #' @param onlineInsertionNames the names of each online media insertion you wish to use
 #' @param offlineInsertionNames  the names of each offline media insertion you wish to use
 #' @param priceNames the names of the different product prices
@@ -442,15 +444,14 @@ generateEventData <- function(fromDate = Sys.Date() - 1 * 365,
 #'
 #' @examples
 #' a<-1
-generateData <-
+generateCovariatesData <-
   function(fromDate=Sys.Date()-1*365,
            toDate=Sys.Date(),
-           kpi='acquisitions',
            sector='telekom',
            onlineInsertionNames=c('display', 'facebook', 'search_branded'),
            offlineInsertionNames=c('tv', 'radio', 'ooh', 'print'),
-           priceNames=c('product_a', 'product_b', 'product_c'),
-           distributionNames=c('product_a', 'product_b', 'product_c'),
+           priceNames=c('price_product_a', 'price_product_b', 'price_product_c'),
+           distributionNames=c('dist_product_a', 'dist_product_b', 'dist_product_c'),
            weatherNames=c('sunshine', 'precipitation', 'temperature'),
            competitorNames=c('competitor_a', 'competitor_b', 'competitor_c'),
            macroNames=c('cpi', 'cci', 'gdp'),
@@ -461,6 +462,21 @@ generateData <-
     # These come as list of three tibbles.
     ondf <- generateOnlineData(fromDate, toDate, onlineInsertionNames)
     ofdf <- generateOfflineData(fromDate, toDate, offlineInsertionNames)
+    # Fix them into usable flat tables
+    netdf <- dplyr::inner_join(
+      ondf$net %>% setNames(c('date', paste0('net_', names(.)[-1]))),
+      ofdf$net %>% setNames(c('date', paste0('net_', names(.)[-1])))
+    )
+    cpmdf <- dplyr::inner_join(
+      ondf$cpm %>% setNames(c('date', paste0('cpm_', names(.)[-1]))),
+      ofdf$cpm %>% setNames(c('date', paste0('cpm_', names(.)[-1])))
+    )
+    impdf <- dplyr::inner_join(
+      ondf$impression %>% setNames(c('date', paste0('imp_', names(.)[-1]))),
+      ofdf$impression %>% setNames(c('date', paste0('imp_', names(.)[-1])))
+    )
+
+
     # These come as pure tibbles
     prdf <- generatePriceData(fromDate, toDate, priceNames)
     didf <- generateDistributionData(fromDate, toDate, distributionNames)
@@ -469,6 +485,7 @@ generateData <-
     madf <- generateMacroData(fromDate, toDate, macroNames)
     # evdf <- generateEventData(fromDate, toDate, eventNames)
 
-    mydf <- Reduce(function(x, y) dplyr::inner_join(x,y, by = "date"), list(mydf, wedf, codf, madf, didf, prdf))
+    mydf <- Reduce(function(x, y) dplyr::inner_join(x,y, by = "date"),
+                   list(mydf, wedf, codf, madf, didf, prdf, netdf, impdf, cpmdf))
     mydf
   }
