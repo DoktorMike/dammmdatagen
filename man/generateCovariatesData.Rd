@@ -5,7 +5,7 @@
 \title{Generate a marketing mix modeling covariates data set}
 \usage{
 generateCovariatesData(fromDate = Sys.Date() - 1 * 365,
-  toDate = Sys.Date(), sector = "telekom",
+  toDate = Sys.Date(), sector = "retail",
   onlineInsertionNames = c("display", "facebook", "search_branded"),
   offlineInsertionNames = c("tv", "radio", "ooh", "print"),
   priceNames = c("price_product_a", "price_product_b",

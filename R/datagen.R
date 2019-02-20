@@ -447,7 +447,7 @@ generateEventData <- function(fromDate = Sys.Date() - 1 * 365,
 generateCovariatesData <-
   function(fromDate=Sys.Date()-1*365,
            toDate=Sys.Date(),
-           sector='telekom',
+           sector='retail',
            onlineInsertionNames=c('display', 'facebook', 'search_branded'),
            offlineInsertionNames=c('tv', 'radio', 'ooh', 'print'),
            priceNames=c('price_product_a', 'price_product_b', 'price_product_c'),
@@ -475,7 +475,6 @@ generateCovariatesData <-
       ondf$impression %>% setNames(c('date', paste0('imp_', names(.)[-1]))),
       ofdf$impression %>% setNames(c('date', paste0('imp_', names(.)[-1])))
     )
-
 
     # These come as pure tibbles
     prdf <- generatePriceData(fromDate, toDate, priceNames)

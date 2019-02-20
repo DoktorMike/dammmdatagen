@@ -1,7 +1,7 @@
 Package: dammmdatagen
 Type: Package
 Title: Marketing Mix Modeling Data Generator
-Version: 0.1.0
+Version: 0.2.0
 Author: Michael Green <micke.green@gmail.com>
 Maintainer: Michael Green <micke.green@gmail.com>
 Description: This package aims at being a general purpose example data generator for Marketing Mix Modeling Benchmark purposes.

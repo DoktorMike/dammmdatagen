@@ -30,18 +30,30 @@ This is a basic example which shows you how to generate a small 1 year data set.
 library(dammmdatagen)
 
 # generate a basic data set
-mydf <- generateData()
+mydf <- generateCovariatesData()
+#> Joining, by = "date"
+#> Joining, by = "date"
+#> Joining, by = "date"
 head(mydf)
-#> # A tibble: 6 x 10
-#>   date       sunshine precipi… tempe… compet… compet… compet…   cpi    cci
-#>   <date>        <dbl>    <dbl>  <dbl>   <dbl>   <dbl>   <dbl> <dbl>  <dbl>
-#> 1 2017-01-14  -2.50     -1.10  -2.64    50000   30000  100000  0     0    
-#> 2 2017-01-15  -0.253     0.178 -2.14    10000   70000       0  1.87 -0.497
-#> 3 2017-01-16  -0.340    -0.758 -1.72    60000   90000   50000  5.51  0.184
-#> 4 2017-01-17  -0.399    -1.36  -0.746   50000  100000   50000  8.34  1.31 
-#> 5 2017-01-18   0.0712   -1.10  -0.981   40000  100000   50000  9.13  3.81 
-#> 6 2017-01-19   0.308    -1.79  -0.161  100000  100000       0 10.0   4.45 
-#> # ... with 1 more variable: gdp <dbl>
+#> # A tibble: 6 x 37
+#>   date       sunshine precipitation temperature competitor_a competitor_b
+#>   <date>        <dbl>         <dbl>       <dbl>        <dbl>        <dbl>
+#> 1 2018-02-19    -2.26         -2.98      -0.811        80000        50000
+#> 2 2018-02-20    -2.96         -3.60       0.434        80000        80000
+#> 3 2018-02-21    -2.35         -3.50      -0.685        80000        80000
+#> 4 2018-02-22    -2.58         -2.40       0.500       100000        20000
+#> 5 2018-02-23    -1.65         -1.62       0.120        70000       100000
+#> 6 2018-02-24     1.39         -2.81       0.582        40000        20000
+#> # … with 31 more variables: competitor_c <dbl>, cpi <dbl>, cci <dbl>,
+#> #   gdp <dbl>, dist_product_a <dbl>, dist_product_b <dbl>,
+#> #   dist_product_c <dbl>, price_product_a <dbl>, price_product_b <dbl>,
+#> #   price_product_c <dbl>, net_display <dbl>, net_facebook <dbl>,
+#> #   net_search_branded <dbl>, net_tv <dbl>, net_radio <dbl>,
+#> #   net_ooh <dbl>, net_print <dbl>, imp_display <dbl>, imp_facebook <dbl>,
+#> #   imp_search_branded <dbl>, imp_tv <dbl>, imp_radio <dbl>,
+#> #   imp_ooh <dbl>, imp_print <dbl>, cpm_display <dbl>, cpm_facebook <dbl>,
+#> #   cpm_search_branded <dbl>, cpm_tv <dbl>, cpm_radio <dbl>,
+#> #   cpm_ooh <dbl>, cpm_print <dbl>
 ```
 
 We can do a lot more of course! In this small snippet we'll generate 1 month worth of competitor media spendings data and plot that out.

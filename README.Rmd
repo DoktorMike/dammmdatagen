@@ -39,7 +39,7 @@ This is a basic example which shows you how to generate a small 1 year data set.
 library(dammmdatagen)
 
 # generate a basic data set
-mydf <- generateData()
+mydf <- generateCovariatesData()
 head(mydf)
 ```
 
