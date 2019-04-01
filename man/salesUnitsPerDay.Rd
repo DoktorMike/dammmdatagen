@@ -20,7 +20,9 @@ a company can seel within an industry given the population size of that
 country.
 }
 \examples{
+library(ggplot2)
+library(MASS)
 avgsalesperday <- salesUnitsPerDay('telecom')
-avgsales<-rnegbin(100, avgsalesperday, 1)
+avgsales<-MASS::rnegbin(100, avgsalesperday[["UnitsPerDay"]], 1)
 qplot(1:length(avgsales), avgsales) + geom_line()
 }

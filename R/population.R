@@ -8,11 +8,15 @@
 #' @param population the population size which defaults to 5 million people
 #'
 #' @return the number of expected sold units per average day
+#' @importFrom stats rnorm rpois runif setNames
+#' @importFrom MASS rnegbin
 #' @export
 #'
 #' @examples
+#' library(ggplot2)
+#' library(MASS)
 #' avgsalesperday <- salesUnitsPerDay('telecom')
-#' avgsales<-rnegbin(100, avgsalesperday, 1)
+#' avgsales<-MASS::rnegbin(100, avgsalesperday[["UnitsPerDay"]], 1)
 #' qplot(1:length(avgsales), avgsales) + geom_line()
 salesUnitsPerDay <- function(industry='telecom', population=5e6) {
   industries <- c('telecom', 'betting')
