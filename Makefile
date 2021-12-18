@@ -40,6 +40,7 @@ coverage:
 release:
 	npx standard-version
 	#npx standard-version --release-as minor
+	#npx standard-version -f  # first release
 
 releasetest:
 	npx standard-version --dry-run
