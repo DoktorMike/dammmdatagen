@@ -1,5 +1,5 @@
 linters: with_defaults(
-    object_name_linter = NULL, # 57
+    object_name_linter = object_name_linter("camelCase"), # 57
     line_length_linter = line_length_linter(120), # 33
     commented_code_linter = NULL, # 12
     seq_linter = NULL, # 2

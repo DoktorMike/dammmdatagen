@@ -61,7 +61,9 @@ generateFromFunction <- function(f, fromDate = Sys.Date() - 1 * 365,
 generateWeatherData <- function(fromDate = Sys.Date() - 1 * 365,
                                 toDate = Sys.Date(),
                                 mynames = c("sunshine", "precipitation", "temperature")) {
-  arf <- function(x) as.vector(stats::arima.sim(list(order = c(1, 0, 0), ar = 0.7), n = as.integer(toDate - fromDate) + 1))
+  arf <- function(x) {
+    as.vector(stats::arima.sim(list(order = c(1, 0, 0), ar = 0.7), n = as.integer(toDate - fromDate) + 1))
+  }
   generateFromFunction(arf, fromDate = fromDate, toDate = toDate, mynames = mynames)
 }
 
@@ -332,7 +334,11 @@ generateOnlineData <- function(fromDate = Sys.Date() - 1 * 365,
   # genspend <- function(x) rnorm(length(x), 1, 1/5)*x
   genimp <- function(x) rnorm(length(x), 1, 1 / 5) * campdf$net / x * 1000
   impdf <- tibble::as_tibble(data.frame(date = cpmdf$date, sapply(dplyr::select(cpmdf, -date), genimp)))
-  netdf <- tibble::as_tibble(data.frame(date = impdf$date, dplyr::select(impdf, -date) / 1000 * dplyr::select(cpmdf, -date)))
+  netdf <- data.frame(
+    date = impdf$date,
+    dplyr::select(impdf, -date) / 1000 * dplyr::select(cpmdf, -date)
+  ) %>%
+    tibble::as_tibble()
   list(net = netdf, impression = impdf, cpm = cpmdf)
 }
 
@@ -422,7 +428,8 @@ generateOfflineData <- function(fromDate = Sys.Date() - 1 * 365,
   # genspend <- function(x) rnorm(length(x), 1, 1/5)*x
   genimp <- function(x) rnorm(length(x), 1, 1 / 5) * campdf$net / x * 1000
   impdf <- tibble::as_tibble(data.frame(date = cpmdf$date, sapply(dplyr::select(cpmdf, -date), genimp)))
-  netdf <- tibble::as_tibble(data.frame(date = impdf$date, dplyr::select(impdf, -date) / 1000 * dplyr::select(cpmdf, -date)))
+  netdf <- data.frame(date = impdf$date, dplyr::select(impdf, -date) / 1000 * dplyr::select(cpmdf, -date)) %>%
+    tibble::as_tibble()
   list(net = netdf, impression = impdf, cpm = cpmdf)
 }
 
