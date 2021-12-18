@@ -16,6 +16,7 @@ end more value for all stakeholders of MMM.
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![Coverage
 Status](https://img.shields.io/codecov/c/github/DoktorMike/dammmdatagen/master.svg)](https://codecov.io/github/DoktorMike/dammmdatagen?branch=master)
+[![R-CMD-check](https://github.com/DoktorMike/dammmdatagen/workflows/R-CMD-check/badge.svg)](https://github.com/DoktorMike/dammmdatagen/actions)
 <!-- badges: end -->
 
 ## Installation
