@@ -37,9 +37,11 @@ lint:
 coverage:
 	Rscript -e 'covr::package_coverage()'
 
-docs: build
-	Rscript -e 'devtools::document()'
+readme:
 	Rscript -e 'devtools::build_readme()'
+
+docs: build readme
+	Rscript -e 'devtools::document()'
 	Rscript -e 'pkgdown::build_site()'
 
 release:
