@@ -1,0 +1,8 @@
+linters: with_defaults(
+    object_name_linter = NULL, # 57
+    line_length_linter = line_length_linter(120), # 33
+    commented_code_linter = NULL, # 12
+    seq_linter = NULL, # 2
+    object_usage_linter = NULL, # 1
+    dummy_linter = NULL
+  )
