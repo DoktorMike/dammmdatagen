@@ -4,9 +4,13 @@
 \alias{generateOnlineData}
 \title{Generate online media data}
 \usage{
-generateOnlineData(fromDate = Sys.Date() - 1 * 365,
-  toDate = Sys.Date(), mynames = c("display", "facebook",
-  "search_branded"), avgcpm = 0.5, avgnet = 10000)
+generateOnlineData(
+  fromDate = Sys.Date() - 1 * 365,
+  toDate = Sys.Date(),
+  mynames = c("display", "facebook", "search_branded"),
+  avgcpm = 0.5,
+  avgnet = 10000
+)
 }
 \arguments{
 \item{fromDate}{the beginning of the time series}
@@ -29,9 +33,10 @@ Generate online media data
 library(ggplot2)
 library(dplyr)
 library(tidyr)
-mydflist <- generateOnlineData(Sys.Date()-30, Sys.Date())
+mydflist <- generateOnlineData(Sys.Date() - 30, Sys.Date())
 mydflist[["impression"]] \%>\%
-gather(type, impression, -date) \%>\%
-ggplot(aes(y=impression, x=date, color=type)) +
-geom_line() + theme_minimal()
+  gather(type, impression, -date) \%>\%
+  ggplot(aes(y = impression, x = date, color = type)) +
+  geom_line() +
+  theme_minimal()
 }

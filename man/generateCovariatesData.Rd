@@ -4,16 +4,19 @@
 \alias{generateCovariatesData}
 \title{Generate a marketing mix modeling covariates data set}
 \usage{
-generateCovariatesData(fromDate = Sys.Date() - 1 * 365,
-  toDate = Sys.Date(), sector = "retail",
+generateCovariatesData(
+  fromDate = Sys.Date() - 1 * 365,
+  toDate = Sys.Date(),
+  sector = "retail",
   onlineInsertionNames = c("display", "facebook", "search_branded"),
   offlineInsertionNames = c("tv", "radio", "ooh", "print"),
-  priceNames = c("price_product_a", "price_product_b",
-  "price_product_c"), distributionNames = c("dist_product_a",
-  "dist_product_b", "dist_product_c"), weatherNames = c("sunshine",
-  "precipitation", "temperature"), competitorNames = c("competitor_a",
-  "competitor_b", "competitor_c"), macroNames = c("cpi", "cci", "gdp"),
-  eventNames = c("event_a", "event_b"))
+  priceNames = c("price_product_a", "price_product_b", "price_product_c"),
+  distributionNames = c("dist_product_a", "dist_product_b", "dist_product_c"),
+  weatherNames = c("sunshine", "precipitation", "temperature"),
+  competitorNames = c("competitor_a", "competitor_b", "competitor_c"),
+  macroNames = c("cpi", "cci", "gdp"),
+  eventNames = c("event_a", "event_b")
+)
 }
 \arguments{
 \item{fromDate}{the beginning of the time series}
@@ -50,5 +53,5 @@ marketing mix model except for the response variable i.e. the dependent
 variable.
 }
 \examples{
-a<-1
+a <- 1
 }

@@ -4,9 +4,12 @@
 \alias{generateDistributionData}
 \title{Generate distribution data as absolute levels}
 \usage{
-generateDistributionData(fromDate = Sys.Date() - 1 * 365,
-  toDate = Sys.Date(), mynames = c("product_a", "product_b",
-  "product_c"), initDist = c(1000, 500, 800))
+generateDistributionData(
+  fromDate = Sys.Date() - 1 * 365,
+  toDate = Sys.Date(),
+  mynames = c("product_a", "product_b", "product_c"),
+  initDist = c(1000, 500, 800)
+)
 }
 \arguments{
 \item{fromDate}{the beginning of the time series}
@@ -27,9 +30,12 @@ Generate distribution data as absolute levels
 library(ggplot2)
 library(dplyr)
 library(tidyr)
-generateDistributionData(Sys.Date()-30, Sys.Date(),
-c('product_a', 'product_b', 'product_c'), c(20, 50, 10) ) \%>\%
-gather(type, distribution, -date) \%>\%
-ggplot(aes(y=distribution, x=date, color=type)) +
-geom_line() + theme_minimal()
+generateDistributionData(
+  Sys.Date() - 30, Sys.Date(),
+  c("product_a", "product_b", "product_c"), c(20, 50, 10)
+) \%>\%
+  gather(type, distribution, -date) \%>\%
+  ggplot(aes(y = distribution, x = date, color = type)) +
+  geom_line() +
+  theme_minimal()
 }

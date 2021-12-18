@@ -4,9 +4,13 @@
 \alias{generateOfflineData}
 \title{Generate offline media data}
 \usage{
-generateOfflineData(fromDate = Sys.Date() - 1 * 365,
-  toDate = Sys.Date(), mynames = c("tv", "radio", "ooh"),
-  avgcpm = 0.5, avgnet = 10000)
+generateOfflineData(
+  fromDate = Sys.Date() - 1 * 365,
+  toDate = Sys.Date(),
+  mynames = c("tv", "radio", "ooh"),
+  avgcpm = 0.5,
+  avgnet = 10000
+)
 }
 \arguments{
 \item{fromDate}{the beginning of the time series}
@@ -29,9 +33,10 @@ Generate offline media data
 library(ggplot2)
 library(dplyr)
 library(tidyr)
-mydflist <- generateOfflineData(Sys.Date()-30, Sys.Date())
+mydflist <- generateOfflineData(Sys.Date() - 30, Sys.Date())
 mydflist[["impression"]] \%>\%
-gather(type, impression, -date) \%>\%
-ggplot(aes(y=impression, x=date, color=type)) +
-geom_line() + theme_minimal()
+  gather(type, impression, -date) \%>\%
+  ggplot(aes(y = impression, x = date, color = type)) +
+  geom_line() +
+  theme_minimal()
 }

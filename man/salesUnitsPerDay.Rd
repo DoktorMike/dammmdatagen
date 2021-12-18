@@ -22,7 +22,7 @@ country.
 \examples{
 library(ggplot2)
 library(MASS)
-avgsalesperday <- salesUnitsPerDay('telecom')
-avgsales<-MASS::rnegbin(100, avgsalesperday[["UnitsPerDay"]], 1)
+avgsalesperday <- salesUnitsPerDay("telecom")
+avgsales <- MASS::rnegbin(100, avgsalesperday[["UnitsPerDay"]], 1)
 qplot(1:length(avgsales), avgsales) + geom_line()
 }

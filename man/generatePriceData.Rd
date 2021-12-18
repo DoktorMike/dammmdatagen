@@ -4,8 +4,11 @@
 \alias{generatePriceData}
 \title{Generate price data}
 \usage{
-generatePriceData(fromDate = Sys.Date() - 1 * 365, toDate = Sys.Date(),
-  mynames = c("product_a", "product_b", "product_c"))
+generatePriceData(
+  fromDate = Sys.Date() - 1 * 365,
+  toDate = Sys.Date(),
+  mynames = c("product_a", "product_b", "product_c")
+)
 }
 \arguments{
 \item{fromDate}{the beginning of the time series}
@@ -24,8 +27,9 @@ Generate price data
 library(ggplot2)
 library(dplyr)
 library(tidyr)
-generatePriceData(Sys.Date()-30, Sys.Date()) \%>\%
-gather(type, price, -date) \%>\%
-ggplot(aes(y=price, x=date, color=type)) +
-geom_line() + theme_minimal()
+generatePriceData(Sys.Date() - 30, Sys.Date()) \%>\%
+  gather(type, price, -date) \%>\%
+  ggplot(aes(y = price, x = date, color = type)) +
+  geom_line() +
+  theme_minimal()
 }

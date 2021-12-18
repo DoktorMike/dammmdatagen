@@ -4,9 +4,11 @@
 \alias{generateWeatherData}
 \title{Generate weather data}
 \usage{
-generateWeatherData(fromDate = Sys.Date() - 1 * 365,
-  toDate = Sys.Date(), mynames = c("sunshine", "precipitation",
-  "temperature"))
+generateWeatherData(
+  fromDate = Sys.Date() - 1 * 365,
+  toDate = Sys.Date(),
+  mynames = c("sunshine", "precipitation", "temperature")
+)
 }
 \arguments{
 \item{fromDate}{the beginning of the time series}
@@ -25,8 +27,9 @@ Generate weather data
 library(ggplot2)
 library(dplyr)
 library(tidyr)
-generateWeatherData(Sys.Date()-30, Sys.Date()) \%>\%
-gather(type, measure, -date) \%>\%
-ggplot(aes(y=measure, x=date, color=type)) +
-geom_line() + theme_minimal()
+generateWeatherData(Sys.Date() - 30, Sys.Date()) \%>\%
+  gather(type, measure, -date) \%>\%
+  ggplot(aes(y = measure, x = date, color = type)) +
+  geom_line() +
+  theme_minimal()
 }

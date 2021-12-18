@@ -37,6 +37,11 @@ lint:
 coverage:
 	Rscript -e 'covr::package_coverage()'
 
+docs: build
+	Rscript -e 'devtools::document()'
+	Rscript -e 'devtools::build_readme()'
+	Rscript -e 'pkgdown::build_site()'
+
 release:
 	npx standard-version
 	#npx standard-version --release-as minor

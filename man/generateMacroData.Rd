@@ -4,8 +4,11 @@
 \alias{generateMacroData}
 \title{Generate macro economical data}
 \usage{
-generateMacroData(fromDate = Sys.Date() - 1 * 365, toDate = Sys.Date(),
-  mynames = c("cpi", "cci", "gdp"))
+generateMacroData(
+  fromDate = Sys.Date() - 1 * 365,
+  toDate = Sys.Date(),
+  mynames = c("cpi", "cci", "gdp")
+)
 }
 \arguments{
 \item{fromDate}{the beginning of the time series}
@@ -24,10 +27,11 @@ Generate macro economical data
 library(ggplot2)
 library(dplyr)
 library(tidyr)
-generateMacroData(Sys.Date()-30, Sys.Date()) \%>\%
-gather(type, measure, -date) \%>\%
-ggplot(aes(y=measure, x=date, color=type)) +
-geom_line() + theme_minimal()
+generateMacroData(Sys.Date() - 30, Sys.Date()) \%>\%
+  gather(type, measure, -date) \%>\%
+  ggplot(aes(y = measure, x = date, color = type)) +
+  geom_line() +
+  theme_minimal()
 
-ts.plot(arima.sim(list(order = c(1,1,0), ar = 0.7), n = 365))
+ts.plot(arima.sim(list(order = c(1, 1, 0), ar = 0.7), n = 365))
 }

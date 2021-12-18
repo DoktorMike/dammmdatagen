@@ -4,9 +4,11 @@
 \alias{generateCompetitorData}
 \title{Generate competitor media spending as list prices data}
 \usage{
-generateCompetitorData(fromDate = Sys.Date() - 1 * 365,
-  toDate = Sys.Date(), mynames = c("competitor_a", "competitor_b",
-  "competitor_c"))
+generateCompetitorData(
+  fromDate = Sys.Date() - 1 * 365,
+  toDate = Sys.Date(),
+  mynames = c("competitor_a", "competitor_b", "competitor_c")
+)
 }
 \arguments{
 \item{fromDate}{the beginning of the time series}
@@ -25,8 +27,8 @@ Generate competitor media spending as list prices data
 library(ggplot2)
 library(dplyr)
 library(tidyr)
-generateCompetitorData(Sys.Date()-30, Sys.Date()) \%>\%
-gather(competitor, spend, -date) \%>\%
-ggplot(aes(y=spend, x=date, fill=competitor)) +
-geom_bar(stat="identity", position = position_stack())
+generateCompetitorData(Sys.Date() - 30, Sys.Date()) \%>\%
+  gather(competitor, spend, -date) \%>\%
+  ggplot(aes(y = spend, x = date, fill = competitor)) +
+  geom_bar(stat = "identity", position = position_stack())
 }

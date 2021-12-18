@@ -4,8 +4,12 @@
 \alias{generateEventData}
 \title{Generate offline media data}
 \usage{
-generateEventData(fromDate = Sys.Date() - 1 * 365, toDate = Sys.Date(),
-  mynames = c("event_a", "event_b"), freq = 0.01)
+generateEventData(
+  fromDate = Sys.Date() - 1 * 365,
+  toDate = Sys.Date(),
+  mynames = c("event_a", "event_b"),
+  freq = 0.01
+)
 }
 \arguments{
 \item{fromDate}{the beginning of the time series}
@@ -26,8 +30,9 @@ Generate offline media data
 library(ggplot2)
 library(dplyr)
 library(tidyr)
-generateEventData(Sys.Date()-30, Sys.Date()) \%>\%
-gather(type, value, -date) \%>\%
-ggplot(aes(y=value, x=date, color=type)) +
-geom_line() + theme_minimal()
+generateEventData(Sys.Date() - 30, Sys.Date()) \%>\%
+  gather(type, value, -date) \%>\%
+  ggplot(aes(y = value, x = date, color = type)) +
+  geom_line() +
+  theme_minimal()
 }
