@@ -6,3 +6,10 @@
 ^figs/*$
 ^README_cache/*$
 ^codecov\.yml$
+^Makefile$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
+^\.github$
+^LICENSE\.md$
+^\.lintr$

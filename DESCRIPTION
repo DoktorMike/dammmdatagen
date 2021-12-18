@@ -18,3 +18,4 @@ Imports: stats,
     HMM
 Suggests: testthat,
     covr
+URL: https://doktormike.github.io/dammmdatagen/

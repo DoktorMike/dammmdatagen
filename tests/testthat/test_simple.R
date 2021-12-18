@@ -1,13 +1,17 @@
 # library(stringr)
 context("Dimensions check on data")
 
+offonsize <- structure(c(366L, 4L, 366L, 4L, 366L, 4L),
+  .Dim = 2:3,
+  .Dimnames = list(NULL, c("net", "impression", "cpm"))
+)
+
 test_that("we get the correct dimensions", {
-  expect_output(str(generateMacroData()), "366 obs. of  4 variables")
-  expect_output(str(generateEventData()), "366 obs. of  3 variables")
-  expect_output(str(generateWeatherData()), "366 obs. of  4 variables")
-  expect_output(str(generateCompetitorData()), "366 obs. of  4 variables")
-  expect_output(str(generateMacroData()), "366 obs. of  4 variables")
-  expect_output(str(generatePriceData()), "366 obs. of  4 variables")
-  expect_output(str(generateOnlineData()), "List of 3")
-  expect_output(str(generateOfflineData()), "List of 3")
+  expect_equal(dim(generateMacroData()), c(366, 4))
+  expect_equal(dim(generateEventData()), c(366, 3))
+  expect_equal(dim(generateWeatherData()), c(366, 4))
+  expect_equal(dim(generateCompetitorData()), c(366, 4))
+  expect_equal(dim(generatePriceData()), c(366, 4))
+  expect_equal(generateOnlineData() %>% sapply(dim), offonsize)
+  expect_equal(generateOfflineData() %>% sapply(dim), offonsize)
 })
