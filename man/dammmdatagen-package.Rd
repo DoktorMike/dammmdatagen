@@ -6,6 +6,8 @@
 \alias{dammmdatagen-package}
 \title{dammmdatagen: Marketing Mix Modeling Data Generator}
 \description{
+\if{html}{\figure{logo.png}{options: align='right' alt='logo' width='120'}}
+
 This package aims at being a general purpose example data generator for Marketing Mix Modeling Benchmark purposes.
 }
 \seealso{

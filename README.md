@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# dammmdatagen
+# dammmdatagen <a href="https://doktormike.github.io/dammmdatagen/"><img src="man/figures/logo.png" align="right" height="139" /></a>
 
 The goal of dammmdatagen is to make it easy for marketing mix modeling
 professionals to get access to realistic data sets where the ground
@@ -14,8 +14,6 @@ end more value for all stakeholders of MMM.
 
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
-[![Coverage
-Status](https://img.shields.io/codecov/c/github/DoktorMike/dammmdatagen/master.svg)](https://codecov.io/github/DoktorMike/dammmdatagen?branch=master)
 [![R-CMD-check](https://github.com/DoktorMike/dammmdatagen/workflows/R-CMD-check/badge.svg)](https://github.com/DoktorMike/dammmdatagen/actions)
 [![Codecov test
 coverage](https://codecov.io/gh/DoktorMike/dammmdatagen/branch/master/graph/badge.svg)](https://app.codecov.io/gh/DoktorMike/dammmdatagen?branch=master)
