@@ -15,3 +15,4 @@ test_that("we get the correct dimensions", {
   expect_equal(generateOnlineData() %>% sapply(dim), offonsize)
   expect_equal(generateOfflineData() %>% sapply(dim), offonsize)
 })
+
