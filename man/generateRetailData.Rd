@@ -5,9 +5,9 @@
 \title{Generate a marketing mix modeling data set}
 \usage{
 generateRetailData(
-  fromDate = Sys.Date() - 1 * 365,
+  fromDate = Sys.Date() - 3 * 365,
   toDate = Sys.Date(),
-  kpi = "revenue",
+  kpi = "units",
   sector = "retail",
   onlineInsertionNames = c("display", "facebook", "search_branded"),
   offlineInsertionNames = c("tv", "radio", "ooh", "print"),
@@ -54,5 +54,16 @@ It uses many different stochastical processes to accomplish
 this and the dynamics behind them are not available to the user to manipulate.
 }
 \examples{
-a <- 1
+library(ggplot2)
+library(nord)
+ret <- generateRetailData()
+dates <- ret[["covariates"]][["Macro"]][["date"]]
+qplot(dates, ret[["response"]]) + geom_line() + ylim(0, NA)
+# entrytocolname <- function(x) a <- ret[["effects"]][[x]] \%>\% setNames(c(tolower(paste0(x, "_", names(.)))))
+entrytocolname <- function(x) tibble::tibble(rowSums(ret[["effects"]][[x]])) \%>\% setNames(x)
+Reduce(dplyr::bind_cols, lapply(names(ret[["effects"]]), entrytocolname)) \%>\%
+        dplyr::mutate(date = dates) \%>\%
+        tidyr::pivot_longer(-date, names_to = "variable", values_to = "value") \%>\%
+        ggplot2::ggplot(ggplot2::aes(x = date, y = value, fill = variable)) +
+        ggplot2::geom_bar(stat = "identity")
 }

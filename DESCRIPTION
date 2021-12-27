@@ -13,10 +13,12 @@ Imports:
     ggplot2,
     HMM,
     MASS,
+    plyr,
     stats,
     tibble,
     tidyr
 Suggests: 
+    nord,
     covr,
     testthat
 Encoding: UTF-8
