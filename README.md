@@ -61,6 +61,44 @@ head(mydf)
 #> #   imp_search_branded <dbl>, imp_tv <dbl>, imp_radio <dbl>, imp_ooh <dbl>, …
 ```
 
+Say that you would like to also generate a response variable to fit a
+model to. Then you could use the highlevel API function below.
+
+``` r
+library(dammmdatagen)
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+library(scales)
+ret <- generateRetailData()
+#> Joining, by = "date"
+#> Joining, by = "date"
+#> Joining, by = "date"
+#> New names:
+#> * product_a -> product_a...7
+#> * product_b -> product_b...8
+#> * product_c -> product_c...9
+#> * product_a -> product_a...10
+#> * product_b -> product_b...11
+#> * ...
+dates <- ret[["covariates"]][["Macro"]][["date"]]
+qplot(dates, ret[["response"]]) + geom_line() + ylim(0, NA)
+```
+
+<img src="man/figures/README-fullexample-1.png" width="100%" />
+
+``` r
+# entrytocolname <- function(x) a <- ret[["effects"]][[x]] %>% setNames(c(tolower(paste0(x, "_", names(.)))))
+entrytocolname <- function(x) tibble::tibble(rowSums(ret[["effects"]][[x]])) %>% setNames(x)
+Reduce(dplyr::bind_cols, lapply(names(ret[["effects"]]), entrytocolname)) %>%
+        dplyr::mutate(date = dates) %>%
+        tidyr::pivot_longer(-date, names_to = "variable", values_to = "value") %>%
+        ggplot2::ggplot(ggplot2::aes(x = date, y = value, fill = variable)) +
+    ggplot2::geom_bar(stat = "identity") + ggplot2::theme_minimal()
+```
+
+<img src="man/figures/README-fullexample-2.png" width="100%" />
+
 We can do a lot more of course! In this small snippet we’ll generate 1
 month worth of competitor media spendings data and plot that out.
 
@@ -69,13 +107,14 @@ library(dammmdatagen)
 library(ggplot2)
 library(dplyr)
 library(tidyr)
-library(scales) 
+library(scales)
 
-generateCompetitorData(fromDate = Sys.Date()-30, toDate = Sys.Date()) %>% 
-  gather("competitor", "spend", -"date") %>% 
-  ggplot(aes(y=spend, x=date, fill=competitor)) + 
-  geom_bar(stat="identity", position = position_stack()) + 
-  theme_minimal() + scale_y_continuous(labels = dollar_format(prefix = "kr. "))
+generateCompetitorData(fromDate = Sys.Date() - 30, toDate = Sys.Date()) %>%
+        gather("competitor", "spend", -"date") %>%
+        ggplot(aes(y = spend, x = date, fill = competitor)) +
+        geom_bar(stat = "identity", position = position_stack()) +
+        theme_minimal() +
+        scale_y_continuous(labels = dollar_format(prefix = "kr. "))
 ```
 
 <img src="man/figures/README-competitorspendplot-1.png" width="100%" />
@@ -85,10 +124,11 @@ macroeconomical data. These types of indicators are typically slow
 moving over time with minor temporal differences.
 
 ``` r
-generateMacroData(fromDate = Sys.Date()-30, toDate = Sys.Date()) %>% 
-  gather("indicator", "value", -"date") %>% 
-  ggplot(aes(y=value, x=date, color=indicator)) + 
-  geom_line(size = 1.5) + theme_minimal()
+generateMacroData(fromDate = Sys.Date() - 30, toDate = Sys.Date()) %>%
+        gather("indicator", "value", -"date") %>%
+        ggplot(aes(y = value, x = date, color = indicator)) +
+        geom_line(size = 1.5) +
+        theme_minimal()
 ```
 
 <img src="man/figures/README-macroecondataplot-1.png" width="100%" />
@@ -98,10 +138,11 @@ generateMacroData(fromDate = Sys.Date()-30, toDate = Sys.Date()) %>%
 Event data are modeled as a poisson distribution with a low incidence.
 
 ``` r
-generateEventData(Sys.Date()-265, Sys.Date()) %>%
-  gather(type, value, -date) %>%
-  ggplot(aes(y=value, x=date, fill=type)) +
-  geom_bar(stat="identity") + theme_minimal()
+generateEventData(Sys.Date() - 265, Sys.Date()) %>%
+        gather(type, value, -date) %>%
+        ggplot(aes(y = value, x = date, fill = type)) +
+        geom_bar(stat = "identity") +
+        theme_minimal()
 ```
 
 <img src="man/figures/README-eventdata1-1.png" width="100%" />
@@ -110,10 +151,11 @@ The incidence can of course be controlled. This is done via the freq
 parameter.
 
 ``` r
-generateEventData(Sys.Date()-265, Sys.Date(), freq = 0.1) %>%
-  gather(type, value, -date) %>%
-  ggplot(aes(y=value, x=date, fill=type)) +
-  geom_bar(stat="identity") + theme_minimal()
+generateEventData(Sys.Date() - 265, Sys.Date(), freq = 0.1) %>%
+        gather(type, value, -date) %>%
+        ggplot(aes(y = value, x = date, fill = type)) +
+        geom_bar(stat = "identity") +
+        theme_minimal()
 ```
 
 <img src="man/figures/README-eventdata2-1.png" width="100%" />
@@ -127,11 +169,12 @@ also differentiate between offline and online media. This difference is
 rather artificial right now but it’s to futureproof the package.
 
 ``` r
-mydflist <- generateOnlineData(Sys.Date()-30, Sys.Date())
+mydflist <- generateOnlineData(Sys.Date() - 30, Sys.Date())
 mydflist[["impression"]] %>%
-  gather(type, impression, -date) %>%
-  ggplot(aes(y=impression, x=date, fill=type)) +
-  geom_bar(stat="identity") + theme_minimal()
+        gather(type, impression, -date) %>%
+        ggplot(aes(y = impression, x = date, fill = type)) +
+        geom_bar(stat = "identity") +
+        theme_minimal()
 ```
 
 <img src="man/figures/README-onlineimpdata-1.png" width="100%" />
