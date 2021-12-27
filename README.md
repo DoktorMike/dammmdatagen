@@ -94,7 +94,9 @@ Reduce(dplyr::bind_cols, lapply(names(ret[["effects"]]), entrytocolname)) %>%
         dplyr::mutate(date = dates) %>%
         tidyr::pivot_longer(-date, names_to = "variable", values_to = "value") %>%
         ggplot2::ggplot(ggplot2::aes(x = date, y = value, fill = variable)) +
-    ggplot2::geom_bar(stat = "identity") + ggplot2::theme_minimal()
+    ggplot2::geom_bar(stat = "identity") + ggplot2::theme_minimal() +
+    ggplot2::ylab("Units sold") +
+    ggplot2::xlab("")
 ```
 
 <img src="man/figures/README-fullexample-2.png" width="100%" />
