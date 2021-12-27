@@ -5,6 +5,7 @@
 #' It uses many different stochastical processes to accomplish
 #' this and the dynamics behind them are not available to the user to manipulate.
 #'
+#' @importFrom magrittr "%>%"
 #'
 #' @param fromDate the beginning of the time series
 #' @param toDate the end of the time series
@@ -79,7 +80,7 @@ generateRetailData <-
                 margin <- 400
                 roi <- 1.0
                 adsf <- function(x, b = 1, a = max(x), l = stats::rbeta(1, 1, 3), p = 1.0) {
-                        b * tanh(as.vector(stats::filter(x, l, method = "recursive")) / a) * stas::rbinom(1, 1, p)
+                        b * tanh(as.vector(stats::filter(x, l, method = "recursive")) / a) * stats::rbinom(1, 1, p)
                 }
                 linf <- function(x, b = 0, p = 1.0) b * x * stats::rbinom(1, 1, p)
                 invf <- function(x, b = 1, a = 1, p = 1.0) b / ((x)^a) * stats::rbinom(1, 1, p)

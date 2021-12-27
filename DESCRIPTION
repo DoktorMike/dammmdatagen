@@ -12,6 +12,7 @@ Imports:
     dplyr,
     ggplot2,
     HMM,
+    magrittr,
     MASS,
     plyr,
     stats,
